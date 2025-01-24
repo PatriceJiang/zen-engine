@@ -1,0 +1,6 @@
+[submodule "deps/mimalloc"]
+	path = deps/mimalloc
+	url = https://github.com/microsoft/mimalloc
+[submodule "deps/dawn"]
+	path = deps/dawn
+	url = https://github.com/google/dawn
