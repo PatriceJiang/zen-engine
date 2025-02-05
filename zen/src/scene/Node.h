@@ -1,9 +1,8 @@
 #pragma once
 
-#include <bitset>
 #include <vector>
-#include <string_view>
 #include "./Entity.h"
+#include "./Component.h"
 
 namespace zen {
 
@@ -12,7 +11,7 @@ namespace zen {
 
     class Node final {
     public:
-        Node(Entity e);
+        Node();
         ~Node();
         void addChild(Node *node);
         void removeChild(Node *node);
@@ -20,16 +19,31 @@ namespace zen {
 
         template<typename C>
         C * addComponent() {
-            return C::Storage::allocate(mEntity); 
+            auto *c =  C::Storage::allocate(mEntity); 
+            mComponents.emplace_back(c);
+            return c;
         }
 
         template<typename C>
         void removeComponent(){
             C::Storage::free(mEntity);
+            for(auto itr = mComponents.begin(); itr != mComponents.end(); itr++) {
+                if((*itr)->name == C::name) {
+                    mComponents.erase(itr);
+                    break;
+                }
+            }
         }
 
-        Component *addComponent(std::string_view name);
+        Component *addComponent(const std::string& name);
         void removeComponent(Component *comp);
+        void removeComponent(const std::string &name);
+
+        template<typename T>
+        std::vector<Component*> getComponents() {
+            
+        }
+
     private:
         Entity mEntity;
         Node *mParent{nullptr};

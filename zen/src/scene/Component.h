@@ -18,6 +18,7 @@ namespace zen {
     class Component {
     public:
         constexpr static int Bits = 0;
+        constexpr static std::string name = "_Component";
         using Storage = ComponetStorage<Component>;
 
     };
